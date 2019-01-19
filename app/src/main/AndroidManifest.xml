@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.testtask2screenapp">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
@@ -21,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".UserActivity"
+            android:label="Profile"
             android:screenOrientation="portrait"></activity>
     </application>
 

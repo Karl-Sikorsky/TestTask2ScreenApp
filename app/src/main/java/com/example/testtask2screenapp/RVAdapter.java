@@ -18,25 +18,35 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
 
-    public static class UserViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onBindViewHolder(final UserViewHolder userViewHolder, final int position) {
 
-        TextView userName;
-        TextView userPhone;
-        TextView userId;
-        ImageView userPhoto;
-        ConstraintLayout user_card;
+        userViewHolder.userName.setText(String.format("%s %s", users.get(position).getName().getLast(), users.get(position).getName().getFirst()));
+        userViewHolder.userPhone.setText(users.get(position).getPhone());
+        userViewHolder.userId.setText(String.valueOf(position));
+        Picasso.get()
+                .load(users.get(position).getPicture().getMedium())
+                .placeholder(context.getResources().getDrawable(R.drawable.ic_launcher_background))
+                .error(context.getResources().getDrawable(R.drawable.ic_launcher_background))
+                .fit()
+                .into(userViewHolder.userPhoto);
+        userViewHolder.user_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UserActivity.class);
 
+                intent.putExtra("name", users.get(position).getName().getLast() + " " + users.get(position).getName().getFirst());
+                intent.putExtra("phone", users.get(position).getPhone());
+                intent.putExtra("mail", users.get(position).getEmail());
+                intent.putExtra("gender", users.get(position).getGender());
+                intent.putExtra("age", users.get(position).getDob().getDate().substring(0, 10) + " DoB");
+                intent.putExtra("address", users.get(position).getLocation().getState() + ", " + users.get(position).getLocation().getCity());
+                intent.putExtra("cell", users.get(position).getCell());
+                intent.putExtra("image", users.get(position).getPicture().getLarge());
+                context.startActivity(intent);
+            }
 
-        UserViewHolder(View itemView) {
-            super(itemView);
-            itemView.setTag(this);
-            user_card = (ConstraintLayout) itemView.findViewById(R.id.user_card);
-            userName = (TextView) itemView.findViewById(R.id.textViewName);
-            userPhone = (TextView) itemView.findViewById(R.id.textViewPhone);
-            userPhoto = (ImageView) itemView.findViewById(R.id.imageViewPhoto);
-            userId = (TextView) itemView.findViewById(R.id.textViewId);
-
-        }
+        });
     }
 
     List<Result> users;
@@ -57,27 +67,25 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
         return uvh;
     }
 
-    @Override
-    public void onBindViewHolder(UserViewHolder userViewHolder, final int position) {
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        userViewHolder.userName.setText(String.format("%s %s", users.get(position).getName().getLast(), users.get(position).getName().getFirst()));
-        userViewHolder.userPhone.setText(users.get(position).getPhone());
-        userViewHolder.userId.setText(String.valueOf(position));
-        Picasso.get()
-                .load(users.get(position).getPicture().getMedium())
-                .placeholder(context.getResources().getDrawable(R.drawable.ic_launcher_background))
-                .error(context.getResources().getDrawable(R.drawable.ic_launcher_background))
-                .fit()
-                .into(userViewHolder.userPhoto);
-        userViewHolder.user_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, UserActivity.class);
+        TextView userName;
+        TextView userPhone;
+        TextView userId;
+        ImageView userPhoto;
+        ConstraintLayout user_card;
 
-                context.startActivity(intent);
-            }
 
-        });
+        UserViewHolder(View itemView) {
+            super(itemView);
+            itemView.setTag(this);
+            user_card = itemView.findViewById(R.id.user_card);
+            userName = itemView.findViewById(R.id.textViewName);
+            userPhone = itemView.findViewById(R.id.textViewPhone);
+            userPhoto = itemView.findViewById(R.id.imageViewPhoto);
+            userId = itemView.findViewById(R.id.textViewId);
+
+        }
     }
 
     @Override

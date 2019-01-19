@@ -36,7 +36,7 @@ public class UsersModel implements MvpContract.Model {
 
     @NonNull
     public List<Result> getUsers() {
-            return users;
+        return users;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UsersModel implements MvpContract.Model {
                 .map(new Function<RandomuserResponse, List<Result>>() {
                     @Override
                     public List<Result> apply(
-                            @io.reactivex.annotations.NonNull final RandomuserResponse usersResponse) throws Exception {
+                            @io.reactivex.annotations.NonNull final RandomuserResponse usersResponse) {
                         Log.d("usersLog", "have an apply in model and can change response");
                         return usersResponse.getResults();
                     }
@@ -56,17 +56,16 @@ public class UsersModel implements MvpContract.Model {
 
                     @Override
                     public void accept(
-                            @io.reactivex.annotations.NonNull final List<Result> results)
-                            throws Exception {
+                            @io.reactivex.annotations.NonNull final List<Result> results) {
                         Log.d("usersLog", "have an  list of ready Users in model");
                         addUsersToField(results, usersPresenter);
 
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
+                    public void accept(@NonNull Throwable throwable) {
                         usersPresenter.showError();
-                        Log.d("usersLog", "have adding trouble: "+throwable.getMessage());
+                        Log.d("usersLog", "have adding trouble: " + throwable.getMessage());
                     }
                 })
         );
@@ -74,7 +73,7 @@ public class UsersModel implements MvpContract.Model {
 
 
     public void addUsersToField(List<Result> resultsToAdd, UsersPresenter mUsersPresenter) {
-        if(users==null){
+        if (users == null) {
             users = new ArrayList<>();
         }
         users.addAll(resultsToAdd);
@@ -88,14 +87,14 @@ public class UsersModel implements MvpContract.Model {
     }
 
     @Override
-    public void loadUsers (final UsersPresenter mUsersPresenter) {
+    public void loadUsers(final UsersPresenter mUsersPresenter) {
         mCompositeDisposable.add(mUsersService.queryUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<RandomuserResponse, List<Result>>() {
                     @Override
                     public List<Result> apply(
-                            @io.reactivex.annotations.NonNull final RandomuserResponse usersResponse) throws Exception {
+                            @io.reactivex.annotations.NonNull final RandomuserResponse usersResponse) {
                         Log.d("usersLog", "have an apply in model and can change response");
                         return usersResponse.getResults();
                     }
@@ -104,22 +103,20 @@ public class UsersModel implements MvpContract.Model {
 
                     @Override
                     public void accept(
-                            @io.reactivex.annotations.NonNull final List<Result> results)
-                            throws Exception {
+                            @io.reactivex.annotations.NonNull final List<Result> results) {
                         Log.d("usersLog", "have an  list of ready Users in model");
                         setUsers(results);
                         mUsersPresenter.setUsers(results);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
+                    public void accept(@NonNull Throwable throwable) {
                         mUsersPresenter.showError();
-                        Log.d("usersLog", "have trouble: "+throwable.getMessage());
+                        Log.d("usersLog", "have trouble: " + throwable.getMessage());
                     }
                 })
         );
     }
-
 
 
     @Override

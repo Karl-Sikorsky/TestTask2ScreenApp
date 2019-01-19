@@ -11,7 +11,7 @@ public interface MvpContract {
 
         void hideLoading();
 
-        void displayBaseContent();
+
     }
 
     interface MainView extends View {
@@ -28,7 +28,6 @@ public interface MvpContract {
         void onDestroy();
 
         void requestUsers();
-
 
 
         void showError();

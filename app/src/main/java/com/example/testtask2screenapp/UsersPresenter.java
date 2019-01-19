@@ -37,7 +37,6 @@ public class UsersPresenter implements MvpContract.Presenter {
     }
 
 
-
     public void showError() {
         mView.displayErrorDialog();
     }
