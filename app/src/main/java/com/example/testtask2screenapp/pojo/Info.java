@@ -11,10 +11,10 @@ public class Info {
     private String seed;
     @SerializedName("results")
     @Expose
-    private Integer results;
+    private String results;
     @SerializedName("page")
     @Expose
-    private Integer page;
+    private String page;
     @SerializedName("version")
     @Expose
     private String version;
@@ -27,19 +27,19 @@ public class Info {
         this.seed = seed;
     }
 
-    public Integer getResults() {
+    public String getResults() {
         return results;
     }
 
-    public void setResults(Integer results) {
+    public void setResults(String results) {
         this.results = results;
     }
 
-    public Integer getPage() {
+    public String getPage() {
         return page;
     }
 
-    public void setPage(Integer page) {
+    public void setPage(String page) {
         this.page = page;
     }
 

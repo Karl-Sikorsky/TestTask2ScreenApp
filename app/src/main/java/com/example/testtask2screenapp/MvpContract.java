@@ -33,14 +33,23 @@ public interface MvpContract {
 
         void showError();
 
+        List<Result> getUsers();
+
+        void addData();
     }
 
     interface Model {
+
+
         void onDestroy();
 
         List<RandomuserResponse> getUsersData();
 
         void loadUsers(UsersPresenter usersPresenter);
+
+        List<Result> getUsers();
+
+        void addUsers(UsersPresenter usersPresenter);
     }
 
 }

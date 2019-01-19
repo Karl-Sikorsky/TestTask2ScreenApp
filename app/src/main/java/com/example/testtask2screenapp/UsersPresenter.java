@@ -41,4 +41,14 @@ public class UsersPresenter implements MvpContract.Presenter {
     public void showError() {
         mView.displayErrorDialog();
     }
+
+    @Override
+    public List<Result> getUsers() {
+        return mModel.getUsers();
+    }
+
+    @Override
+    public void addData() {
+        mModel.addUsers(this);
+    }
 }

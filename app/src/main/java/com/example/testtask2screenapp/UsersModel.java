@@ -7,6 +7,7 @@ import com.example.testtask2screenapp.network.UsersService;
 import com.example.testtask2screenapp.pojo.RandomuserResponse;
 import com.example.testtask2screenapp.pojo.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,7 +36,50 @@ public class UsersModel implements MvpContract.Model {
 
     @NonNull
     public List<Result> getUsers() {
-        return users;
+            return users;
+    }
+
+    @Override
+    public void addUsers(final UsersPresenter usersPresenter) {
+        mCompositeDisposable.add(mUsersService.queryUsers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<RandomuserResponse, List<Result>>() {
+                    @Override
+                    public List<Result> apply(
+                            @io.reactivex.annotations.NonNull final RandomuserResponse usersResponse) throws Exception {
+                        Log.d("usersLog", "have an apply in model and can change response");
+                        return usersResponse.getResults();
+                    }
+                })
+                .subscribe(new Consumer<List<Result>>() {
+
+                    @Override
+                    public void accept(
+                            @io.reactivex.annotations.NonNull final List<Result> results)
+                            throws Exception {
+                        Log.d("usersLog", "have an  list of ready Users in model");
+                        addUsersToField(results, usersPresenter);
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        usersPresenter.showError();
+                        Log.d("usersLog", "have adding trouble: "+throwable.getMessage());
+                    }
+                })
+        );
+    }
+
+
+    public void addUsersToField(List<Result> resultsToAdd, UsersPresenter mUsersPresenter) {
+        if(users==null){
+            users = new ArrayList<>();
+        }
+        users.addAll(resultsToAdd);
+        mUsersPresenter.setUsers(users);
+
     }
 
     @Override
@@ -70,6 +114,7 @@ public class UsersModel implements MvpContract.Model {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
                         mUsersPresenter.showError();
+                        Log.d("usersLog", "have trouble: "+throwable.getMessage());
                     }
                 })
         );

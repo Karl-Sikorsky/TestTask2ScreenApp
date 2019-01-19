@@ -11,7 +11,7 @@ public class Dob {
     private String date;
     @SerializedName("age")
     @Expose
-    private Integer age;
+    private String age;
 
     public String getDate() {
         return date;
@@ -21,11 +21,11 @@ public class Dob {
         this.date = date;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

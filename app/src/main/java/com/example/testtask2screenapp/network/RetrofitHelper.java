@@ -1,5 +1,7 @@
 package com.example.testtask2screenapp.network;
 
+import com.example.testtask2screenapp.Constants;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -23,7 +25,7 @@ public class RetrofitHelper {
                 final HttpUrl originalHttpUrl = original.url();
                 final HttpUrl url = originalHttpUrl.newBuilder()
 
-                        .addQueryParameter("results", "20")
+                        .addQueryParameter("results", String.valueOf(Constants.SIZE_OF_PORTION))
 
                         .build();
 
